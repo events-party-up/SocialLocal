@@ -1,0 +1,4 @@
+<resources>
+    <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">yzC0kvn-TssI2wK29UlRXRQGDac7NJC_DU7MG</string>
+    <string name="app_name">socialvite</string>
+</resources>

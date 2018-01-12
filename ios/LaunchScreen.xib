@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" semanticContentAttribute="spatial" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg" translatesAutoresizingMaskIntoConstraints="NO" id="tEt-8j-gH6">
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+                    <color key="backgroundColor" red="0.37344503402709961" green="0.49306005239486694" blue="0.99799233675003052" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" red="0.48791134357452393" green="0.78802746534347534" blue="0.96092313528060913" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="tEt-8j-gH6" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="9e1-PK-vWT"/>
+                <constraint firstAttribute="trailing" secondItem="tEt-8j-gH6" secondAttribute="trailing" id="OLx-y0-dz0"/>
+                <constraint firstAttribute="trailing" secondItem="tEt-8j-gH6" secondAttribute="trailing" id="bLM-uA-e8B"/>
+                <constraint firstItem="tEt-8j-gH6" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="hSP-v1-Bf0"/>
+                <constraint firstItem="tEt-8j-gH6" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="iaH-37-AZT"/>
+                <constraint firstAttribute="bottom" secondItem="tEt-8j-gH6" secondAttribute="bottom" id="jUw-hr-eYV"/>
+                <constraint firstAttribute="bottom" secondItem="tEt-8j-gH6" secondAttribute="bottom" id="soE-ub-dWt"/>
+                <constraint firstItem="tEt-8j-gH6" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="w6W-xH-CjZ"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="548" y="455"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="bg" width="384" height="512"/>
+    </resources>
+</document>

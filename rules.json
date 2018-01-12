@@ -1,0 +1,375 @@
+{
+  "rules": {
+    "users": {
+      "$userid": {
+        ".validate": "newData.hasChildren()",
+        "name": {
+          ".validate": "newData.isString()"
+        },
+        "email": {
+          ".validate": "newData.isString()"
+        },
+        "emailVerified": {
+          ".validate": "newData.isBoolean()"
+        },
+        "phone": {
+          ".validate": "newData.isString()"
+        },
+        "about": {
+          ".validate": "newData.isString()"
+        },
+        "city": {
+          ".validate": "newData.isString()"
+        },
+        "photo": {
+          ".validate": "newData.isString()"
+        },
+        "created_at": {
+          ".validate": "newData.hasChildren() && newData.hasChildren(['timestamp'])",
+          "timestamp": {
+            ".validate": "newData.isNumber()"
+          },
+          "$other": {
+            ".validate": "false"
+          }
+        },
+        "hasLoggedInWithPassword": {
+          ".validate": "newData.isBoolean()"
+        },
+        "verifyPhone": {
+          ".validate": "newData.isBoolean()"
+        },
+        "isAdmin": {
+          ".validate": "newData.isBoolean()"
+        },
+        "username": {
+          ".validate": "newData.isString()"
+        },
+        "firstLogin": {
+          ".validate": "newData.isBoolean()"
+        },
+        "uid": {
+          ".validate": "newData.isString() && (auth != null && auth.uid == newData.val())"
+        },
+        "ownedEvents": {
+          "$key1": {
+            ".validate": "newData.parent().parent().parent().parent().child('events').child($key1).val() != null && newData.isString()"
+          },
+          ".validate": "newData.hasChildren()"
+        },
+        "regUsers": {
+          "$key2": {
+            ".validate": "newData.parent().parent().parent().parent().child('users').child($key2).val() != null && newData.isBoolean()"
+          },
+          ".validate": "newData.hasChildren()"
+        },
+        "inviteUsers": {
+          "$key3": {
+            ".validate": "newData.isBoolean()"
+          },
+          ".validate": "newData.hasChildren()"
+        },
+        "blockedUsers": {
+          "$key4": {
+            ".validate": "newData.parent().parent().parent().parent().child('users').child($key4).val() != null && newData.isBoolean()"
+          },
+          ".validate": "newData.hasChildren()"
+        },
+        "fcmToken": {
+          ".validate": "newData.isString()"
+        },
+        "latLong": {
+          ".validate": "newData.hasChildren() && newData.hasChildren(['latitude', 'longitude'])",
+          "latitude": {
+            ".validate": "newData.isNumber()"
+          },
+          "longitude": {
+            ".validate": "newData.isNumber()"
+          },
+          "$other": {
+            ".validate": "false"
+          }
+        },
+        "$other": {
+          ".validate": "false"
+        },
+        ".write": "auth != null && auth.uid == $userid",
+        ".indexOn": [
+          "email",
+          "phone"
+        ]
+      },
+      ".read": "true",
+      ".indexOn": [
+        "phone"
+      ]
+    },
+    "events": {
+      "$eventid": {
+        ".validate": "newData.hasChildren(['info'])",
+        "info": {
+          ".validate": "newData.hasChildren(['name', 'name'])",
+          "name": {
+            ".validate": "newData.isString() && newData.isString()"
+          },
+          "owner": {
+            ".validate": "true"
+          },
+          "message": {
+            ".validate": "newData.isString() && newData.isString()"
+          },
+          "photo": {
+            ".validate": "newData.isString() && newData.isString()"
+          },
+          "images": {
+            ".validate": "true"
+          },
+          "location": {
+            ".validate": "newData.hasChildren() && newData.hasChildren(['latitude', 'longitude', 'address']) && newData.hasChildren() && newData.hasChildren(['latitude', 'longitude', 'address'])",
+            "latitude": {
+              ".validate": "newData.isNumber() && newData.isNumber()"
+            },
+            "longitude": {
+              ".validate": "newData.isNumber() && newData.isNumber()"
+            },
+            "address": {
+              ".validate": "true"
+            },
+            "$other": {
+              ".validate": "false"
+            }
+          },
+          "created_at": {
+            ".validate": "newData.hasChildren() && newData.hasChildren(['timestamp']) && newData.hasChildren() && newData.hasChildren(['timestamp'])",
+            "timestamp": {
+              ".validate": "newData.isNumber() && newData.isNumber()"
+            },
+            "$other": {
+              ".validate": "false"
+            }
+          },
+          "finished_at": {
+            ".validate": "newData.hasChildren() && newData.hasChildren(['timestamp']) && newData.hasChildren() && newData.hasChildren(['timestamp'])",
+            "timestamp": {
+              ".validate": "newData.isNumber() && newData.isNumber()"
+            },
+            "$other": {
+              ".validate": "false"
+            }
+          },
+          "group": {
+            ".validate": "newData.isString() && newData.isString()"
+          },
+          "$other": {
+            ".validate": "false"
+          },
+          ".read": "auth != null",
+          ".write": "data.val() == null || auth != null && auth.uid == data.child('owner').val()"
+        },
+        "users": {
+          "$key5": {
+            ".validate": "newData.parent().parent().parent().parent().child('users').child($key5).val() != null && newData.isString()"
+          },
+          ".validate": "newData.hasChildren()"
+        },
+        "users_muted": {
+          "$key5": {
+            ".validate": "newData.parent().parent().parent().parent().child('users').child($key5).val() != null && newData.isString()"
+          },
+          ".validate": "newData.hasChildren()"
+        },
+        "summary": {
+          ".validate": "true"
+        },
+        "inviteUsers": {
+          "$key3": {
+            ".validate": "newData.isBoolean()"
+          },
+          ".validate": "newData.hasChildren()"
+        },
+        "$other": {
+          ".validate": "false"
+        },
+        ".read": "auth != null",
+        ".write": "auth != null",
+        ".indexOn": [
+          "created_at"
+        ]
+      },
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "groups": {
+      "$groupid": {
+        ".validate": "newData.hasChildren()",
+        "name": {
+          ".validate": "newData.isString()"
+        },
+        "photo": {
+          ".validate": "newData.isString()"
+        },
+        "owner": {
+          ".validate": "true"
+        },
+        "users": {
+          "$key2": {
+            ".validate": "newData.parent().parent().parent().parent().child('users').child($key2).val() != null && newData.isBoolean()"
+          },
+          ".validate": "newData.hasChildren()"
+        },
+        "created_at": {
+          ".validate": "newData.hasChildren() && newData.hasChildren(['timestamp'])",
+          "timestamp": {
+            ".validate": "newData.isNumber()"
+          },
+          "$other": {
+            ".validate": "false"
+          }
+        },
+        "$other": {
+          ".validate": "false"
+        },
+        ".read": "auth != null",
+        ".write": "auth != null",
+        ".indexOn": [
+          "created_at"
+        ]
+      }
+    },
+    "messages": {
+      "$groupid": {
+        ".read": "auth != null && (root.child('groups').child($groupid).val() != null || root.child('events').child($groupid).val() != null) && root.child('events').child($groupid).child('users').child(auth.uid).val() != null",
+        ".write": "auth != null && (newData.parent().parent().child('groups').child($groupid).val() != null || newData.parent().parent().child('events').child($groupid).val() != null) && newData.parent().parent().child('events').child($groupid).child('users').child(auth.uid).val() != null",
+        ".indexOn": [
+          "order",
+          "created_at"
+        ],
+        "$messageid": {
+          ".validate": "newData.hasChildren()",
+          "uid": {
+            ".validate": "newData.isString() && (auth != null && auth.uid == newData.val())"
+          },
+          "message": {
+            ".validate": "newData.isString()"
+          },
+          "messageType": {
+            ".validate": "newData.isString()"
+          },
+          "created_at": {
+            ".validate": "newData.hasChildren() && newData.hasChildren(['timestamp'])",
+            "timestamp": {
+              ".validate": "newData.isNumber()"
+            },
+            "$other": {
+              ".validate": "false"
+            }
+          },
+          "status": {
+            ".validate": "newData.isString()"
+          },
+          "order": {
+            ".validate": "newData.isNumber()"
+          },
+          "user": {
+            ".validate": "true"
+          },
+          "$other": {
+            ".validate": "false"
+          },
+          ".indexOn": [
+            "order",
+            "created_at"
+          ]
+        }
+      }
+    },
+    "user_events": {
+      "$key6": {
+        ".validate": "newData.hasChildren() && newData.parent().parent().child('users').child($key6).val() != null",
+        "$key7": {
+          ".validate": "newData.parent().parent().parent().child('events').child($key7).val() != null"
+        }
+      },
+      ".validate": "newData.hasChildren()",
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "user_followers": {
+      "$key8": {
+        ".validate": "newData.hasChildren() && newData.parent().parent().child('users').child($key8).val() != null",
+        "$key9": {
+          ".validate": "auth != null && auth.uid == $key9 && newData.isBoolean()"
+        }
+      },
+      ".validate": "newData.hasChildren()",
+      ".read": "true",
+      ".write": "true"
+    },
+    "user_blocked": {
+      "$key10": {
+        ".validate": "newData.hasChildren() && newData.parent().parent().child('users').child($key10).val() != null",
+        "$key9": {
+          ".validate": "auth != null && auth.uid == $key9 && newData.isBoolean()"
+        }
+      },
+      ".validate": "newData.hasChildren()",
+      ".read": "true",
+      ".write": "true"
+    },
+    "notifications": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "phones": {
+      "$phone": {
+        ".validate": "newData.hasChildren(['uid'])",
+        "uid": {
+          ".validate": "newData.isString() && (auth != null && auth.uid == newData.val())"
+        },
+        "$other": {
+          ".validate": "false"
+        },
+        ".read": "true",
+        ".write": "auth != null"
+      }
+    },
+    "emails": {
+      "$email": {
+        ".validate": "newData.hasChildren(['uid'])",
+        "uid": {
+          ".validate": "newData.isString() && (auth != null && auth.uid == newData.val())"
+        },
+        "$other": {
+          ".validate": "false"
+        },
+        ".read": "true",
+        ".write": "auth != null"
+      }
+    },
+    "authTokens": {
+      ".validate": "newData.hasChildren(['phone', 'token'])",
+      "phone": {
+        ".validate": "newData.isString()"
+      },
+      "token": {
+        ".validate": "newData.isNumber()"
+      },
+      "$other": {
+        ".validate": "false"
+      }
+    },
+    "usernames": {
+      "$username": {
+        ".validate": "newData.hasChildren(['uid'])",
+        "uid": {
+          ".validate": "newData.isString() && (auth != null && auth.uid == newData.val())"
+        },
+        "$other": {
+          ".validate": "false"
+        },
+        ".read": "true",
+        ".write": "auth != null"
+      }
+    }
+  }
+}

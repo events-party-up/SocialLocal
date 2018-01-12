@@ -1,0 +1,85 @@
+# Uncomment the next line to define a global platform for your project
+#platform :ios, '9.0'
+
+target 'socialvite' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+   #use_frameworks!
+
+  # Pods for Socialvite
+    pod 'GoogleSignIn'
+    #pod 'Google/SignIn' 
+    pod 'AppAuth'
+    pod 'GooglePlaces'
+    pod 'GoogleMaps'
+    pod 'GooglePlacePicker'
+    pod 'Firebase/Messaging'
+    pod 'Firebase/Core'
+    pod 'Firebase'
+    pod 'Firebase/Auth'
+    pod 'Firebase/Crash'
+    pod 'Firebase/Database'
+    pod 'Firebase/DynamicLinks'
+    pod 'Firebase/Firestore'
+    pod 'Firebase/Messaging'
+    pod 'Firebase/RemoteConfig'
+    pod 'Firebase/Storage'
+
+
+    #pod 'Yoga', :path => '../node_modules/react-native/ReactCommon/yoga/Yoga.podspec'
+    #pod 'React', path: '../node_modules/react-native', :subspecs => [
+    #'Core',
+    #'RCTActionSheet',
+    #'RCTAnimation',
+    #'RCTGeolocation',
+    #'RCTImage',
+    #'RCTLinkingIOS',
+    #'RCTNetwork',
+    #'RCTSettings',
+    #'RCTText',
+    #'RCTVibration',
+    #'RCTWebSocket'
+  #]
+
+#pod 'react-native-maps', path: '../node_modules/react-native-maps'
+#pod 'react-native-google-maps', path: '../node_modules/react-native-maps'  # <~~ if you need GoogleMaps support on iOS
+
+  target 'socialviteTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
+
+target 'socialvite-tvOS' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for Socialvite-tvOS
+
+  target 'socialvite-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
+
+post_install do |installer|
+  installer.aggregate_targets.each do |target|
+      copy_pods_resources_path = "Pods/Target Support Files/#{target.name}/#{target.name}-resources.sh"
+          string_to_replace = '--compile "${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"'
+              assets_compile_with_app_icon_arguments = '--compile "${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}" --app-icon "${ASSETCATALOG_COMPILER_APPICON_NAME}" --output-partial-info-plist "${BUILD_DIR}/assetcatalog_generated_info.plist"'
+                  text = File.read(copy_pods_resources_path)
+                      new_contents = text.gsub(string_to_replace, assets_compile_with_app_icon_arguments)
+                          File.open(copy_pods_resources_path, "w") {|file| file.puts new_contents }
+                            end
+                            end
+
+#post_install do |installer|
+#  installer.pods_project.targets.each do |target|
+#    if target.name == "react-native-google-maps"
+#      target.build_configurations.each do |config|
+#        config.build_settings['CLANG_ENABLE_MODULES'] = 'No'
+#      end
+#    end
+#  end
+#end

@@ -1,0 +1,231 @@
+path /users/{userid} is User{
+    write(){isUser(userid)}
+    index(){["email","phone"]}
+}
+
+path /events/{eventid} is Events{
+    read() {auth != null}
+    write(){auth != null}
+    index(){["created_at"]}
+}
+
+path /groups/{groupid} is Group{
+    read() { auth != null}
+    write(){ auth != null}
+    index(){["created_at"]}
+}
+
+path /messages/{groupid} {
+    index(){["order","created_at"]}
+    read() { auth != null && isGroup(groupid) && isAllowed(groupid)}
+    write(){ auth != null && isGroup(groupid) && isAllowed(groupid)}
+}
+
+path /messages/{groupid}/{messageid} is Message{
+    index(){["order","created_at"]}
+}
+
+path /user_events is UserEvents{
+    read() {auth != null}
+    write(){auth != null}
+}
+
+path /user_followers is UserFollowers{
+    read() {true}
+    write(){true}
+}
+path /user_blocked is UserBlocked{
+    read() {true}
+    write(){true}
+}
+
+path /users {
+    read() {true}
+    index() {["phone"]}
+}
+path /events {
+    read() {auth != null}
+    write() {auth != null}
+}
+path /notifications {
+    read() {auth != null}
+    write() {auth != null}
+}
+path /events/{eventid}/info is Event_Info{
+    read(){ auth != null}
+    write(){prior(this) == null || isUser(prior(this).owner)}
+}
+
+path /phones/{phone} is UserName{
+    read(){true}
+    write(){auth != null}
+}
+
+path /emails/{email} is UserName{
+    read(){true}
+    write(){auth != null}
+}
+
+path /authTokens is UserToken{
+    read() {false}
+    write(){false}
+}
+
+path /usernames/{username} is UserName{
+    read() {true}
+    write(){auth != null}
+
+}
+
+function getUserInfo(username){
+    return isUser(prior(root).usernames[username].uid)
+}
+
+type UserName{
+    uid: UserId
+}
+
+type UserToken{
+    phone: String,
+    token: Number
+}
+
+type UserId extends String{
+    validate() { isUser(this) }
+}
+
+type UserExist extends String{
+    validate() { root.child('users').child(this).val() != null }
+}
+
+type GroupExist extends String{
+    validate() { root.child('groups').child(this).val() != null }
+}
+
+type UserBlockedExist extends String{
+    validate() { root.child('users').child(this).val() != null }
+}
+
+type UserFollowers extends Map<UserExist, FollowerData>{
+}
+
+type FollowerData extends Map<UserId, Boolean>{
+}
+
+type UserBlocked extends Map<UserBlockedExist, BlockedData>{
+}
+type BlockedData extends Map<UserId, Boolean>{
+}
+
+
+type Message {
+    uid : UserId | Null,
+    message : String | Null,
+    messageType: String | Null,
+    created_at : Timestamp | Null,
+    status : String | Null,
+    order: Number | Null,
+    user: Any | Null
+}
+
+type Group {
+    name  : String | Null,
+    photo : String | Null,
+    owner : Any | Null,
+    users : Map<UserExist, Boolean>,
+    created_at : Timestamp | Null
+}
+
+type User {
+    name : String | Null,
+    email: String | Null,
+    emailVerified: Boolean | Null,
+    phone: String | Null,
+    about: String | Null,
+    city : String | Null,
+    photo: String | Null,
+    created_at: Timestamp | Null,
+    hasLoggedInWithPassword: Boolean | Null,
+    verifyPhone: Boolean | Null,
+    isAdmin: Boolean | Null,
+    username: String | Null,
+    firstLogin: Boolean | Null,
+    uid: UserId | Null,
+    ownedEvents: Map<EventID, String>,
+    regUsers: Map<UserExist,Boolean>,
+    inviteUsers: Map<String, Boolean>,
+    blockedUsers: Map<UserBlockedExist,Boolean>,
+    fcmToken: String | Null,
+    latLong : LatLong | Null,
+}
+
+type LatLong{
+    latitude: Number,
+    longitude: Number,
+}
+
+type UserEvents extends Map<UserExist, UserEventData>{
+       
+}
+
+type UserEventData extends Map<EventID, Any>{
+}
+
+type EventID extends String
+{
+    validate() { isEvent(this) }
+}
+
+type Event_Info{
+    name: String,
+    owner: Any | Null ,
+    message: String | Null,
+    photo: String | Null,
+    images: Any | Null,
+    location: Location | Null,
+    created_at: Timestamp | Null,
+    finished_at: Timestamp| Null,
+    group: String | Null
+}
+
+type Location {
+    latitude: Number,
+    longitude: Number,
+    address: Any
+}
+
+type Events{
+    info: Event_Info,
+    users: Map<UserExist, String>,
+    users_muted: Map<UserExist, String>
+    summary: Any | Null,
+    inviteUsers: Map<String, Boolean>
+}
+
+type Timestamp{
+    timestamp: Number
+}
+
+function isEvent(eventid){
+    return root.child('events').child(eventid).val() != null
+}
+
+function isUser(uid){
+    return auth != null && auth.uid == uid
+}
+
+function isGroup(groupid){
+    return root.child('groups').child(groupid).val() != null || root.child('events').child(groupid).val() != null
+}
+
+function isAllowed(groupid){
+    return root.child('events').child(groupid).child('users').child(auth.uid).val() != null
+}
+
+function isAdmin(auth){
+    return root.child('users').child(auth.uid).child('isAdmin').val() == true
+}
+
+function isMember(usernames){
+    return usernames.members[auth.uid] != null
+}
